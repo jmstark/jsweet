@@ -2661,7 +2661,9 @@ public class Java2TypeScriptTranslator extends AbstractTreePrinter {
 			getScope().hasDeclaredConstructor = true;
 			// this workaround will not work on all browsers (see
 			// https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work)
-			if (context.types.isAssignable(clazz.sym.type, context.symtab.throwableType)) {
+			// JMS: Made condition always true so the prototype is always set. This is needed because in IslTranspiler we map/replace unneeded classes to/with Object.
+			// Since this method is called before the replacement, we cannot determine if it is an unneeded class at this point and thus apply the workaround always.
+			if (true || context.types.isAssignable(clazz.sym.type, context.symtab.throwableType)) {
 				printIndent().print("(<any>Object).setPrototypeOf(this, " + getClassName(clazz.sym) + ".prototype);")
 						.println();
 			}
