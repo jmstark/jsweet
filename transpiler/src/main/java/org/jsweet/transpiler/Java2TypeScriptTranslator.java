@@ -4016,13 +4016,20 @@ public class Java2TypeScriptTranslator extends AbstractTreePrinter {
 											print(ENUM_WRAPPER_CLASS_SUFFIX);
 										}
 										print(".");
-                                        context.addHeader(
-                                                "import." + varSym.owner.getSimpleName(),
-                                                "import { "
-                                                        + varSym.owner.getSimpleName()
-                                                        + " } from '"
-                                                        + Util.getRelativePath("@/" + getCompilationUnit().packge.toString().replace('.', '/'), "@/"
-                                                                + varSym.owner.getQualifiedName().toString().replace('.', '/')) + "';\n");
+										if (!getCompilationUnit()
+												.getTypeDecls()
+												.stream()
+												.anyMatch(
+														elem -> elem instanceof JCClassDecl
+																&& ((JCClassDecl) elem).sym.toString().equals(varSym.owner.toString()))) {
+											context.addHeader(
+													"import." + varSym.owner.getSimpleName(),
+													"import { "
+															+ varSym.owner.getSimpleName()
+															+ " } from '"
+															+ Util.getRelativePath("@/" + getCompilationUnit().packge.toString().replace('.', '/'), "@/"
+																	+ varSym.owner.getQualifiedName().toString().replace('.', '/')) + "';\n");
+										}
 									}
 								}
 							} else {
