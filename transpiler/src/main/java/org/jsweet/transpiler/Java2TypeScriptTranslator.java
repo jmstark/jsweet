@@ -1774,7 +1774,10 @@ public class Java2TypeScriptTranslator extends AbstractTreePrinter {
 						print("private " + v.getSimpleName() + ": any");
 					}
 				}
-
+				List<Compound> compounds = classdecl.sym.getAnnotationMirrors().stream().filter(elem -> "ibiss.common.base.transpilation.AdditionalTranspilationConstructorParameter".equals(elem.type.toString())).collect(Collectors.toList());
+				if(!(compounds.isEmpty() || compounds.get(0).values.isEmpty())) {
+					print(compounds.get(0).values.get(0).snd.getValue().toString());
+				}
 				print(") {").startIndent().println();
 				if (classdecl.extending != null && !getScope().removedSuperclass
 						&& !context.isInterface(classdecl.extending.type.tsym)) {
