@@ -2498,7 +2498,7 @@ public class Java2TypeScriptTranslator extends AbstractTreePrinter {
 
 	protected void printMethodReturnDeclaration(JCMethodDecl methodDecl, boolean inCoreWrongOverload) {
 		if (inCoreWrongOverload && !methodDecl.sym.isConstructor()) {
-			print(" : Promise<any>");
+			print(" : any");
 		} else {
 			if (methodDecl.restype != null && methodDecl.restype.type.getTag() != TypeTag.VOID) {
 				print(" : ");
